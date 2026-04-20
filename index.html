@@ -1,0 +1,2387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Criminology Exam Reviewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --navy:    #1a2744;
+      --navy-mid:#223062;
+      --gold:    #c9973a;
+      --gold-lt: #e8b855;
+      --cream:   #f8f5ef;
+      --paper:   #fffdf9;
+      --text:    #1e2533;
+      --text-mid:#3d4a63;
+      --text-lt: #6b7a99;
+      --border:  #ddd7c8;
+      --correct: #1f6b3f;
+      --wrong:   #a52428;
+      --accent:  #2e5fa3;
+      --accent-lt:#eef3fb;
+      --highlight:#fff4d6;
+      --highlight-bdr:#e8c84a;
+      --shadow:  0 4px 20px rgba(26,39,68,0.10);
+      --shadow-md:0 8px 32px rgba(26,39,68,0.15);
+      --radius:  10px;
+      --font-body:'Source Sans 3', sans-serif;
+      --font-head:'Lora', serif;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      line-height: 1.7;
+    }
+
+    /* ===== LAYOUT ===== */
+    .app {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--paper);
+      border-radius: 14px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      animation: fadeUp 0.45s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(18px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ===== HEADER ===== */
+    .app-header {
+      background: var(--navy);
+      padding: 36px 40px 32px;
+      color: #fff;
+      border-bottom: 4px solid var(--gold);
+    }
+
+    .app-header .subtitle {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-lt);
+      margin-bottom: 8px;
+    }
+
+    .app-header h1 {
+      font-family: var(--font-head);
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #fff;
+    }
+
+    .app-header .tagline {
+      margin-top: 6px;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ===== CONTENT AREA ===== */
+    .content { padding: 32px 36px; }
+
+    @media (max-width: 600px) {
+      .app-header { padding: 28px 20px 24px; }
+      .content    { padding: 20px 16px; }
+      .app-header h1 { font-size: 1.5rem; }
+    }
+
+    /* ===== SECTION TITLES ===== */
+    .section-title {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* ===== ACCORDION ===== */
+    .accordion-btn {
+      width: 100%;
+      text-align: left;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(26,39,68,0.12);
+    }
+
+    .accordion-btn:hover { background: var(--navy-mid); box-shadow: var(--shadow); }
+    .accordion-btn:focus { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+    .accordion-btn .acc-icon {
+      font-style: normal;
+      font-size: 0.8em;
+      opacity: 0.75;
+      transition: transform 0.25s;
+      flex-shrink: 0;
+    }
+    .accordion-btn[aria-expanded="true"] .acc-icon { transform: rotate(180deg); }
+
+    .panel {
+      display: none;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin-bottom: 12px;
+    }
+    .panel.open { display: block; animation: panelIn 0.2s ease; }
+
+    @keyframes panelIn {
+      from { opacity:0; transform:translateY(-6px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ===== REVIEWER LIST ===== */
+    .panel ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .panel li {
+      font-size: 0.97rem;
+      padding: 6px 0 6px 22px;
+      position: relative;
+      border-bottom: 1px solid #f0ece4;
+      color: var(--text-mid);
+    }
+    .panel li:last-child { border-bottom: none; }
+
+    .panel li::before {
+      content: "▸";
+      position: absolute;
+      left: 4px;
+      color: var(--gold);
+      font-size: 0.85em;
+      top: 8px;
+    }
+
+    .panel li b, .panel li strong { color: var(--navy); font-weight: 700; }
+
+    /* nested lists */
+    .panel ul ul { padding-left: 16px; margin-top: 4px; }
+    .panel ul ul li { border-bottom: none; color: var(--text-lt); font-size: 0.93rem; }
+    .panel ul ul li::before { content: "–"; color: var(--text-lt); }
+
+    /* tip and highlight */
+    .tip {
+      background: var(--highlight);
+      border-left: 4px solid var(--highlight-bdr);
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #7a5c00;
+      margin-top: 4px;
+    }
+    .tip::before { content: none; }
+
+    .highlight {
+      background: var(--highlight);
+      color: #7a5c00;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    /* strategy footer note */
+    .strategy-note {
+      margin-top: 14px;
+      padding: 12px 16px;
+      background: var(--accent-lt);
+      border-left: 4px solid var(--accent);
+      border-radius: 5px;
+      font-size: 0.9rem;
+      color: var(--accent);
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 12px 28px;
+      font-family: var(--font-body);
+      font-size: 0.97rem;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .btn:focus { outline: 3px solid var(--gold); outline-offset: 2px; }
+    .btn:hover  { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .btn-primary { background: var(--navy); color: #fff; }
+    .btn-gold    { background: var(--gold); color: #fff; }
+    .btn-outline { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+    .btn-muted   { background: #e4e8f0; color: var(--text-mid); }
+    .btn-danger  { background: var(--wrong); color: #fff; }
+
+    /* ===== QUIZ START BUTTON AREA ===== */
+    .quiz-launch {
+      margin-top: 28px;
+      padding-top: 22px;
+      border-top: 2px solid var(--border);
+      text-align: center;
+    }
+
+    /* ===== QUIZ SECTION ===== */
+    .quiz-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .quiz-header h2 {
+      font-family: var(--font-head);
+      font-size: 1.5rem;
+      color: var(--navy);
+    }
+    .quiz-header .quiz-meta {
+      font-size: 0.9rem;
+      color: var(--text-lt);
+      margin-top: 4px;
+    }
+
+    .question {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(26,39,68,0.06);
+    }
+
+    .question p {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .question label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      margin: 6px 0;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.97rem;
+      color: var(--text-mid);
+      transition: background 0.18s, border-color 0.18s;
+    }
+
+    .question label:hover {
+      background: var(--accent-lt);
+      border-color: var(--accent);
+      color: var(--navy);
+    }
+
+    input[type="radio"] {
+      accent-color: var(--accent);
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .correct {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: #edfaf3;
+      border-left: 4px solid var(--correct);
+      border-radius: 5px;
+      color: var(--correct);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .wrong {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: #fdf0f0;
+      border-left: 4px solid var(--wrong);
+      border-radius: 5px;
+      color: var(--wrong);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    /* ===== RESULT ===== */
+    #result {
+      margin-top: 24px;
+      padding: 28px;
+      background: var(--navy);
+      border-radius: var(--radius);
+      text-align: center;
+      color: #fff;
+    }
+    #result h2 {
+      font-family: var(--font-head);
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+    #result p {
+      font-size: 1.1rem;
+      color: var(--gold-lt);
+    }
+
+    /* ===== NAV BUTTONS ===== */
+    .nav-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 500px) {
+      .nav-buttons { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+    }
+
+    /* ===== MODAL ===== */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,18,40,0.75);
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-bg.open { display: flex; }
+
+    .modal-box {
+      background: var(--paper);
+      width: 90%;
+      max-width: 440px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 14px;
+      padding: 36px;
+      box-shadow: 0 24px 64px rgba(10,18,40,0.45);
+      animation: fadeUp 0.25s ease;
+    }
+
+    .modal-box h2 {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      color: var(--navy);
+      margin-bottom: 6px;
+      text-align: center;
+    }
+    .modal-box p.modal-sub {
+      font-size: 0.9rem;
+      color: var(--text-lt);
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    /* ===== QUIZ COUNT MODAL ===== */
+    .count-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .count-btn {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      border: 2px solid var(--navy);
+      background: var(--paper);
+      color: var(--navy);
+      font-size: 1.3em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .count-btn:hover { background: var(--navy); color: #fff; }
+
+    #quizCountInput {
+      width: 88px;
+      text-align: center;
+      font-family: var(--font-head);
+      font-size: 2rem;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 6px;
+      color: var(--navy);
+    }
+    #quizCountInput:focus { outline: 3px solid var(--gold); border-color: var(--gold); }
+
+    #quizCountHint {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-lt);
+      margin-bottom: 20px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* ===== CONTACT MODAL ===== */
+    .modal-box label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-mid);
+      margin-bottom: 5px;
+      margin-top: 14px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .modal-box input,
+    .modal-box textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-family: var(--font-body);
+      font-size: 0.97rem;
+      color: var(--text);
+      background: #fff;
+      transition: border-color 0.18s;
+    }
+    .modal-box input:focus,
+    .modal-box textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(46,95,163,0.12);
+    }
+    .modal-box textarea { resize: vertical; min-height: 90px; }
+    .modal-box .modal-actions-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    /* ===== LOADING SPINNER ===== */
+    .spinner {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2.5px solid rgba(255,255,255,0.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== CONTACT LINK ===== */
+    #contactLink {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 0.88rem;
+      color: var(--accent);
+      text-decoration: underline;
+      cursor: pointer;
+      transition: color 0.18s;
+    }
+    #contactLink:hover { color: var(--navy); }
+
+    /* ===== LOGIN MODAL ===== */
+    #loginModalBG {
+      display: flex; /* always visible until dismissed */
+      position: fixed;
+      inset: 0;
+      background: rgba(10,18,40,0.85);
+      z-index: 2000;
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+    }
+    #loginModalBG.hidden { display: none; }
+
+    .login-box {
+      background: var(--paper);
+      width: 90%;
+      max-width: 400px;
+      border-radius: 16px;
+      padding: 38px 36px 32px;
+      box-shadow: 0 24px 64px rgba(10,18,40,0.5);
+      animation: fadeUp 0.3s ease;
+      text-align: center;
+    }
+    .login-box .login-icon {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+    }
+    .login-box h2 {
+      font-family: var(--font-head);
+      font-size: 1.45rem;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .login-box .login-sub {
+      font-size: 0.88rem;
+      color: var(--text-lt);
+      margin-bottom: 22px;
+    }
+    .login-field {
+      text-align: left;
+      margin-bottom: 14px;
+    }
+    .login-field label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 5px;
+    }
+    .login-field input {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text);
+      background: #fff;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .login-field input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(46,95,163,0.12);
+    }
+    .login-error {
+      color: var(--wrong);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      min-height: 18px;
+    }
+    #loginBtn {
+      width: 100%;
+      padding: 13px;
+      font-size: 1rem;
+      justify-content: center;
+      margin-top: 4px;
+    }
+    .login-change {
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: var(--text-lt);
+    }
+    .login-change a {
+      color: var(--accent);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* ===== USER BADGE (header) ===== */
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 7px 13px;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.85);
+      width: fit-content;
+    }
+    .user-badge .badge-name {
+      font-weight: 700;
+      color: var(--gold-lt);
+    }
+    .user-badge .change-user {
+      margin-left: 6px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+      text-decoration: underline;
+      cursor: pointer;
+      transition: color 0.18s;
+    }
+    .user-badge .change-user:hover { color: var(--gold-lt); }
+
+  </style>
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- HEADER -->
+    <div class="app-header">
+      <div class="subtitle">Board Exam Preparation</div>
+      <h1>Criminology Exam Reviewer</h1>
+      <div class="tagline">Criminology Licensure Examination · Key Concepts &amp; Practice Quiz</div>
+      <div id="userBadge" class="user-badge" style="display:none;">
+        👤 <span class="badge-name" id="badgeName"></span>
+        <span class="change-user" onclick="showLoginModal(true)">Change</span>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+      <div id="mainContent">
+
+        <!-- ===== REVIEWER SECTION ===== -->
+        <div id="reviewerSection">
+
+          <div class="section-title">
+            📖 Study Notes
+          </div>
+
+          <!-- 1. CRIMINOLOGY BASICS -->
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel1">
+            1. Criminology Basics
+            <span class="acc-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="panel" id="panel1" role="region">
+            <ul>
+              <li><b>Criminology</b> = scientific study of crime, criminals, victims + prevention and solution</li>
+              <li>RA 11131 includes victims <span class="highlight">(Important trick item)</span></li>
+              <li>❌ NOT limited only to penalties</li>
+              <li class="tip">Tip: If "victims excluded" appears → mark it WRONG</li>
+            </ul>
+          </div>
+
+          <!-- 2. CRIMINOLOGY THEORIES -->
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel2">
+            2. Criminology Theories
+            <span class="acc-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="panel" id="panel2" role="region">
+            <ul>
+              <li><b>Classical:</b> Free will, clear laws, fixed punishment</li>
+              <li><b>Neoclassical:</b> Age + mental condition considered</li>
+              <li><b>Positivist:</b> No free will — behavior shaped by biology &amp; environment</li>
+              <li><b>Key Pattern:</b></li>
+              <ul>
+                <li>Judge considers age → <span class="highlight">Neoclassical</span></li>
+                <li>Crime due to external factors → <span class="highlight">Positivist</span></li>
+                <li>Clear fixed law, equal punishment → <span class="highlight">Classical</span></li>
+              </ul>
+            </ul>
+          </div>
+
+          <!-- 3. HUMAN BEHAVIOR & PSYCHOLOGY -->
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel3">
+            3. Human Behavior &amp; Psychology
+            <span class="acc-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="panel" id="panel3" role="region">
+            <ul>
+              <li><b>Superego</b> = moral control (RIGHT vs WRONG)</li>
+              <li><b>Dopamine</b> = pleasure → drives addiction and crime repetition</li>
+              <li><b>Defense Mechanisms:</b></li>
+              <ul>
+                <li>Displacement → redirects anger to others</li>
+                <li>Sublimation → turns aggression into constructive activity (e.g., sports)</li>
+                <li>Fantasy → mental escape from reality</li>
+              </ul>
+              <li><b>Personality Disorders:</b></li>
+              <ul>
+                <li>Paranoid → extreme distrust of others</li>
+                <li>Narcissistic → sense of superiority, lack of empathy</li>
+                <li>Histrionic → attention-seeking behavior</li>
+                <li>Dependent → inability to make independent decisions</li>
+              </ul>
+            </ul>
+          </div>
+
+          <!-- 4. CRIME THEORIES & ENVIRONMENT -->
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel4">
+            4. Crime Theories &amp; Environment
+            <span class="acc-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="panel" id="panel4" role="region">
+            <ul>
+              <li><b>Broken Windows Theory:</b> Visible disorder in the environment invites crime</li>
+              <li><b>Routine Activity Theory:</b></li>
+              <ul>
+                <li>Crime occurs when: motivated offender + suitable target + <span class="highlight">absence of capable guardian</span></li>
+              </ul>
+              <li><b>Crime Generator:</b> High-crowd areas produce more criminal opportunities</li>
+              <li><b>Cultural Transmission:</b> Criminal behavior is learned from the environment</li>
+            </ul>
+          </div>
+
+          <!-- 5. DEVELOPMENT THEORIES -->
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel5">
+            5. Development Theories
+            <span class="acc-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="panel" id="panel5" role="region">
+            <ul>
+              <li><b>Piaget:</b></li>
+              <ul>
+                <li>Sensorimotor stage → infants explore using senses</li>
+                <li>Assimilation → applying existing knowledge to new situations</li>
+              </ul>
+              <li><b>Erikson:</b></li>
+              <ul>
+                <li>Industry vs. Inferiority → failure in school shapes self-image</li>
+                <li>Generativity → productive contribution as an adult</li>
+              </ul>
+            </ul>
+          </div>
+
+          <!-- 6. VICTIMOLOGY -->
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel6">
+            6. Victimology
+            <span class="acc-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="panel" id="panel6" role="region">
+            <ul>
+              <li><b>Victim Precipitation:</b> Victim's behavior contributes to or provokes the crime</li>
+              <li><b>Victim Profiling:</b> Analysis of lifestyle and risk factors</li>
+              <li><b>WPP (Witness Protection Program):</b> Protects witnesses to encourage testimony</li>
+            </ul>
+          </div>
+
+          <!-- 7. POLICE ETHICS -->
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel7">
+            7. Police Ethics
+            <span class="acc-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="panel" id="panel7" role="region">
+            <ul>
+              <li><b>Delicadeza:</b> Avoid conflict of interest; sense of propriety</li>
+              <li><b>Integrity:</b> Honesty at all times</li>
+              <li><b>Devotion to Duty:</b> No sleeping on duty, no neglect</li>
+              <li><b>Grass Eaters:</b> Officers who accept small, passive bribes</li>
+              <li><b>Meat Eaters:</b> Officers who actively seek large corrupt gains</li>
+              <li class="tip">Tip: If a gift is accepted → Delicadeza is violated</li>
+            </ul>
+          </div>
+
+          <!-- 8. JUVENILE JUSTICE -->
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel8">
+            8. Juvenile Justice (RA 9344)
+            <span class="acc-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="panel" id="panel8" role="region">
+            <ul>
+              <li><b>Main Goal:</b> <span class="highlight">Rehabilitation, NOT punishment</span></li>
+              <li><b>Diversion:</b> Settlement without going to court</li>
+              <li><b>Suspended Sentence:</b> Found guilty but not sent to prison</li>
+              <li><b>Separation:</b> Minors must be kept separate from adult offenders</li>
+            </ul>
+          </div>
+
+          <!-- 9. BARANGAY JUSTICE SYSTEM -->
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel9">
+            9. Barangay Justice System
+            <span class="acc-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="panel" id="panel9" role="region">
+            <ul>
+              <li><b>Lupong Tagapamayapa:</b> Main body overseeing barangay justice</li>
+              <li><b>Pangkat:</b> Panel that handles specific disputes</li>
+              <li><b>Arbitration:</b> Binding decision rendered by the arbitrator</li>
+              <li><b>Mediation:</b> Neutral party guides discussion; decision not binding</li>
+              <li><b>Conciliation:</b> Helps both parties reach a voluntary agreement</li>
+              <li class="tip">Tip: Cases involving the government → barangay conciliation does NOT apply</li>
+            </ul>
+          </div>
+
+          <!-- 10. RESEARCH & STATISTICS -->
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel10">
+            10. Research &amp; Statistics
+            <span class="acc-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="panel" id="panel10" role="region">
+            <ul>
+              <li><b>Descriptive Statistics:</b> Summarize and describe data only</li>
+              <li><b>Inferential Statistics:</b> Draw conclusions and make predictions</li>
+              <li><b>Mean:</b> The computed average of values</li>
+              <li><b>Empiricism:</b> Knowledge based on actual evidence and observation</li>
+              <li><b>Correlational Study:</b> Examines relationship between variables</li>
+              <li><b>Quasi-Experiment:</b> No random assignment of participants</li>
+            </ul>
+          </div>
+
+          <!-- FINAL EXAM STRATEGY -->
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel11" style="background:var(--gold); margin-top:6px;">
+            🎯 Final Exam Strategy
+            <span class="acc-icon" aria-hidden="true">▼</span>
+          </button>
+          <div class="panel" id="panel11" role="region">
+            <ul>
+              <li>Look for <b>keywords</b> in each question (age, environment, crowd, etc.)</li>
+              <li>Eliminate obviously wrong answers first</li>
+              <li>For scenario-based items → match the <b>theory</b></li>
+              <li>For ethics items → almost always <b>Integrity</b> or <b>Delicadeza</b></li>
+              <li>For juvenile items → always <b>Rehabilitation</b></li>
+            </ul>
+            <div class="strategy-note">
+              Golden Rule: Understand the scenario — don't just memorize blindly.
+              Focus on patterns that repeat in board exams and use trigger words for fast recall under pressure.
+            </div>
+          </div>
+
+          <!-- START QUIZ AREA -->
+          <div class="quiz-launch">
+            <p style="color:var(--text-lt);font-size:0.92rem;margin-bottom:14px;">Ready to test yourself? Take a randomized multiple-choice quiz drawn from the question pool.</p>
+            <button onclick="showQuiz()" class="btn btn-primary" style="font-size:1.05rem;padding:14px 36px;">
+              📝 Start Quiz
+            </button>
+            <br>
+            <span id="contactLink">📧 Questions or feedback? Contact Us</span>
+          </div>
+
+        </div><!-- /reviewerSection -->
+
+
+        <!-- ===== QUIZ SECTION ===== -->
+        <div id="quizSection" style="display:none;">
+          <div class="quiz-header">
+            <h2 id="quizTitle">Criminology Quiz</h2>
+            <p class="quiz-meta">Multiple-Choice · Questions are drawn randomly from the pool</p>
+          </div>
+
+          <form id="quizForm"></form>
+
+          <div class="nav-buttons">
+            <button id="finishBtn" class="btn btn-primary">🏆 Submit &amp; Get Score</button>
+            <button type="button" onclick="refreshQuiz()" class="btn btn-muted">🔄 New Quiz</button>
+            <button type="button" onclick="backToReviewer()" class="btn btn-outline">📖 Back to Review</button>
+          </div>
+          <div id="result"></div>
+        </div><!-- /quizSection -->
+
+      </div><!-- /mainContent -->
+    </div><!-- /content -->
+  </div><!-- /app -->
+
+
+  <!-- ===== LOGIN MODAL ===== -->
+  <div id="loginModalBG">
+    <div class="login-box">
+      <div class="login-icon">🎓</div>
+      <h2>Welcome, Criminologist!</h2>
+      <p class="login-sub">Enter your name and birthday to track your progress.</p>
+
+      <div class="login-field">
+        <label for="l_name">Full Name</label>
+        <input id="l_name" type="text" placeholder="e.g. Juan dela Cruz" autocomplete="name">
+      </div>
+      <div class="login-field">
+        <label for="l_bday">Birthday</label>
+        <input id="l_bday" type="date" autocomplete="bday">
+      </div>
+
+      <div class="login-error" id="loginError"></div>
+      <button id="loginBtn" class="btn btn-primary">🔐 Enter Reviewer</button>
+      <div class="login-change" id="loginChangeNote" style="display:none;">
+        <a onclick="clearLoginAndReset()">Use a different account</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== QUIZ COUNT MODAL ===== -->
+  <div id="quizCountModalBG" class="modal-bg" role="dialog" aria-modal="true" aria-labelledby="quizCountTitle">
+    <div class="modal-box">
+      <h2 id="quizCountTitle">How Many Questions?</h2>
+      <p class="modal-sub">Select the number of items for your quiz session.</p>
+
+      <div class="count-row">
+        <button class="count-btn" onclick="adjustQuizCount(-5)" aria-label="Decrease by 5">−</button>
+        <input id="quizCountInput" type="number" min="1" max="200" value="10" aria-label="Number of questions">
+        <button class="count-btn" onclick="adjustQuizCount(5)" aria-label="Increase by 5">+</button>
+      </div>
+
+      <p id="quizCountHint"></p>
+
+      <div class="modal-actions">
+        <button onclick="startQuizWithCount()" class="btn btn-primary">Start Quiz</button>
+        <button onclick="closeQuizCountModal()" class="btn btn-muted">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== CONTACT MODAL ===== -->
+  <div id="contactModalBG" class="modal-bg" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+    <div class="modal-box">
+      <h2 id="contactTitle">Contact Form</h2>
+      <p class="modal-sub">Fill in your details and we'll get back to you.</p>
+
+      <label for="c_name">Name</label>
+      <input id="c_name" type="text" placeholder="Your full name">
+
+      <label for="c_contact">Contact Number</label>
+      <input id="c_contact" type="text" placeholder="e.g. 09XX XXX XXXX">
+
+      <label for="c_social">Social Media Account</label>
+      <input id="c_social" type="text" placeholder="e.g. Facebook, Messenger">
+
+      <label for="c_request">Request / Comment</label>
+      <textarea id="c_request" placeholder="Write your message here..."></textarea>
+
+      <div class="modal-actions-col">
+        <button id="c_submit" class="btn btn-primary" style="justify-content:center;">Send Message</button>
+        <button id="c_close" class="btn btn-muted" style="justify-content:center;">Close</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    // ===== CONFIGURATION =====
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuhuQ_46D6SVhtBNVi_-PTAB6S40c1-tRrTLkz-LNG4myCGpOdvKkoCqxW8_oLJhiT/exec";
+    const API_KEY = "rk_prod_2026_9xLmP2Qw8ZkT7vRex"; // Leave blank for no-auth mode (GAS API_KEY Script Property also unset).
+                        // To secure: set matching values here AND in GAS Script Properties.
+    const LS_USER_KEY = "crimrev_user";
+
+    // ===== CURRENT USER =====
+    let currentUser = null; // { name, birthday, id }
+
+    // ===== INIT: Check localStorage for saved user =====
+    (function initUser() {
+      const saved = localStorage.getItem(LS_USER_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed.name && parsed.birthday) {
+            currentUser = parsed;
+            applyUser();
+            hideLoginModal();
+            return;
+          }
+        } catch (e) {}
+      }
+      showLoginModal(false);
+    })();
+
+    // ===== LOGIN MODAL LOGIC =====
+    function showLoginModal(showChangeLink) {
+      const modal = document.getElementById("loginModalBG");
+      modal.classList.remove("hidden");
+      if (currentUser) {
+        document.getElementById("l_name").value = currentUser.name;
+        document.getElementById("l_bday").value = currentUser.birthday;
+      }
+      document.getElementById("loginChangeNote").style.display = showChangeLink ? "block" : "none";
+    }
+
+    function hideLoginModal() {
+      document.getElementById("loginModalBG").classList.add("hidden");
+    }
+
+    function applyUser() {
+      document.getElementById("badgeName").textContent = currentUser.name;
+      document.getElementById("userBadge").style.display = "flex";
+    }
+
+    function clearLoginAndReset() {
+      currentUser = null;
+      localStorage.removeItem(LS_USER_KEY);
+      document.getElementById("l_name").value = "";
+      document.getElementById("l_bday").value = "";
+      document.getElementById("loginError").textContent = "";
+      showLoginModal(false);
+    }
+
+    document.getElementById("loginBtn").addEventListener("click", async function () {
+      const name    = document.getElementById("l_name").value.trim();
+      const birthday= document.getElementById("l_bday").value.trim();
+      const errEl   = document.getElementById("loginError");
+      errEl.textContent = "";
+
+      if (!name) { errEl.textContent = "Please enter your full name."; return; }
+      if (!birthday) { errEl.textContent = "Please enter your birthday."; return; }
+
+      // Build user object — ID is name+birthday slug
+      const userId = slugify(name) + "_" + birthday.replace(/-/g, "");
+      currentUser = { name, birthday, id: userId };
+
+      // Save to localStorage immediately (works offline)
+      localStorage.setItem(LS_USER_KEY, JSON.stringify(currentUser));
+
+      // Try saving to Google Sheets (non-blocking)
+      saveUserToGS(currentUser);
+
+      applyUser();
+      hideLoginModal();
+    });
+
+    function slugify(str) {
+      return str.toLowerCase().replace(/\s+/g, "_").replace(/[^a-z0-9_]/g, "");
+    }
+
+    // ===== SAVE USER TO GOOGLE SHEETS =====
+    async function saveUserToGS(user) {
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          redirect: "follow",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({
+            apiKey: API_KEY,
+            sheet: "Users",
+            action: "save",
+            keyField: "id",
+            data: {
+              id: user.id,
+              name: user.name,
+              birthday: user.birthday,
+              firstSeen: new Date().toLocaleString("en-PH", { timeZone: "Asia/Manila" }),
+              source: "Criminology_Exam_Reviewer"
+            }
+          })
+        });
+      } catch (err) {
+        console.warn("GS user save failed (offline?):", err);
+      }
+    }
+
+    // ===== ACCORDION =====
+    document.querySelectorAll(".accordion-btn").forEach(btn => {
+      btn.addEventListener("click", function () {
+        const panelId = this.getAttribute("aria-controls");
+        const panel = document.getElementById(panelId);
+        const isOpen = panel.classList.contains("open");
+        document.querySelectorAll(".panel").forEach(p => p.classList.remove("open"));
+        document.querySelectorAll(".accordion-btn").forEach(b => b.setAttribute("aria-expanded", "false"));
+        if (!isOpen) {
+          panel.classList.add("open");
+          this.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+
+    // ===== MODAL HELPERS =====
+    function openModal(id) { document.getElementById(id).classList.add("open"); }
+    function closeModal(id) { document.getElementById(id).classList.remove("open"); }
+
+    document.querySelectorAll(".modal-bg").forEach(bg => {
+      bg.addEventListener("click", e => { if (e.target === bg) bg.classList.remove("open"); });
+    });
+
+    // ===== CONTACT MODAL =====
+    document.getElementById("contactLink").addEventListener("click", () => openModal("contactModalBG"));
+    document.getElementById("c_close").addEventListener("click", () => closeModal("contactModalBG"));
+
+    document.getElementById("c_submit").addEventListener("click", async () => {
+      const name    = document.getElementById("c_name").value.trim();
+      const contact = document.getElementById("c_contact").value.trim();
+      const social  = document.getElementById("c_social").value.trim();
+      const request = document.getElementById("c_request").value.trim();
+      const btn     = document.getElementById("c_submit");
+
+      if (!name || !contact || !request) {
+        alert("Please fill out Name, Contact Number, and Request/Comment.");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Sending…';
+
+      try {
+        const deviceInfo = await getDeviceInfo();
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          redirect: "follow",
+          headers: { "Content-Type": "text/plain" }, // avoid CORS preflight on GAS
+          body: JSON.stringify({
+            apiKey: API_KEY,
+            sheet: "Contacts",
+            action: "save",
+            keyField: "id",
+            data: {
+              id: "contact_" + Date.now(), // unique key required by GAS save action
+              event: "Client Request",
+              name, contact, social, request,
+              filename: "Criminology_Exam_Reviewer",
+              timestamp: new Date().toLocaleString(),
+              device: JSON.stringify(deviceInfo) // stringify so GAS stores it as text
+            }
+          })
+        });
+        alert("✅ Message sent successfully!");
+        closeModal("contactModalBG");
+        ["c_name","c_contact","c_social","c_request"].forEach(id => document.getElementById(id).value = "");
+      } catch (err) {
+        alert("❌ Error sending message. Please try again.");
+        console.error(err);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Send Message";
+      }
+    });
+
+    // ===== DEVICE INFO =====
+    async function getDeviceInfo() {
+      const ua = navigator.userAgent;
+      const uaData = navigator.userAgentData || {};
+      const screenResolution = `${window.screen.width}x${window.screen.height}`;
+      const browserVersion = uaData.brands
+        ? uaData.brands.map(b => `${b.brand} ${b.version}`).join(", ") : ua;
+      let deviceType = /mobi|iphone|android/i.test(ua) ? "mobile"
+                     : /tablet|ipad/i.test(ua) ? "tablet" : "desktop";
+      let networkInfo = "Unavailable";
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        if (res.ok) {
+          const info = await res.json();
+          networkInfo = { ip:info.ip, city:info.city, region:info.region,
+                          country:info.country_name, org:info.org };
+        }
+      } catch { networkInfo = "Network lookup failed"; }
+      return { ua, browserVersion, platform:navigator.platform,
+               language:navigator.language, screenResolution, deviceType, networkInfo };
+    }
+
+    // ===== SAVE SCORE TO GOOGLE SHEETS (per-user) =====
+    async function saveScoreToGoogleSheets(score, total) {
+      const userName  = currentUser ? currentUser.name : "Anonymous";
+      const userId    = currentUser ? currentUser.id   : "anon";
+      const birthday  = currentUser ? currentUser.birthday : "";
+      const pct       = Math.round((score / total) * 100);
+      const scoreId   = userId + "_" + Date.now(); // unique per attempt
+
+      try {
+        const deviceInfo = await getDeviceInfo();
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          redirect: "follow",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({
+            apiKey: API_KEY,
+            sheet: "Scores",
+            action: "save",
+            keyField: "scoreId",
+            data: {
+              scoreId,
+              userId,
+              name: userName,
+              birthday,
+              score: `${score}/${total}`,
+              percent: `${pct}%`,
+              items: total,
+              filename: "Criminology_Exam_Reviewer",
+              timestamp: new Date().toLocaleString("en-PH", { timeZone: "Asia/Manila" }),
+              device: JSON.stringify(deviceInfo)
+            }
+          })
+        });
+      } catch (err) {
+        console.error("Score save error:", err);
+      }
+    }
+
+    // ===== QUIZ POOL =====
+    const pool = [
+
+// ======== START OF QUIZ ===========
+  {
+    q: "I. It includes the scientific study of crimes, criminals, and victims. II. It deals only with penalties imposed by courts. III. It involves crime prevention and solution. IV. It excludes victims since they are not offenders. Which combination of statements is CORRECT under Republic Act No. 11131?",
+    choices: [
+      "I and II only",
+      "I and III only",
+      "II and IV only",
+      "I, III, and IV"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "General Santos City implements a justice reform where all crimes now have fixed penalties clearly written in law, removing wide discretion from judges. As a result, citizens become more aware of the consequences of their actions. Which principle of the Classical School of Criminology is BEST illustrated?",
+    choices: [
+      "Punishment must be severe to deter crime",
+      "A clear and definite system of justice",
+      "Rehabilitation of offenders",
+      "Individualized sentencing based on personality"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Meldrid, a 17-year-old shoplifter is caught stealing. During trial, the judge considers the offender's age, level of understanding, and circumstances before deciding a lighter penalty. Which theory is BEST reflected?",
+    choices: [
+      "Classical",
+      "Neoclassical",
+      "Positivist",
+      "Deterrence"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Jonas, a hacker, chooses to target a small company instead of a large corporation because he believes security is weaker and the chances of detection are lower, even if the payoff is smaller. What principle is illustrated?",
+    choices: [
+      "Crime is caused by poverty",
+      "Individuals always seek maximum profit",
+      "Offenders weigh both risks and rewards",
+      "Criminal behavior is irrational"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Criminologist A: People commit crimes because they freely choose to do so. Criminologist B: People commit crimes because of factors beyond their control. Who aligns with Positivist Criminology?",
+    choices: [
+      "Criminologist A only",
+      "Criminologist B only",
+      "Both A and B",
+      "Neither"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "A group of Criminologists studies how poverty, power imbalance, and discrimination influence crime rates and labeling of offenders in marginalized communities in the Philippines. Which field is MOST applicable?",
+    choices: [
+      "Comparative criminology",
+      "Critical criminology",
+      "Experimental criminology",
+      "Applied criminology"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "During a formal dinner, a guest uses their hands instead of utensils. What type of norm is violated?",
+    choices: [
+      "Law",
+      "More",
+      "Taboo",
+      "Folkway"
+    ],
+    correctIndex: 3
+  },
+  {
+    q: "In the Philippines, discussing incest openly in public is strongly condemned. Even mentioning it causes discomfort, and individuals who do so are socially rejected. What type of norm is involved?",
+    choices: [
+      "Folkway",
+      "Law",
+      "Taboo",
+      "Custom"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Nicole cheats during an exam. While no immediate legal action is taken, the act is strongly condemned by teachers and peers as morally wrong, and the student faces serious disciplinary consequences. What type of norm is violated?",
+    choices: [
+      "Folkway",
+      "Law",
+      "More",
+      "Taboo"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "CrimCoach concludes that a juvenile offender's behavior is due to a combination of genetic predisposition and exposure to a violent environment growing up. Which approach BEST explains this conclusion?",
+    choices: [
+      "Biological determinism",
+      "Environmental determinism",
+      "Interactionist approach",
+      "Classical theory"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A group of robbers spent three months studying the routine of a rural bank in Cebu City, including guard shifts, CCTV blind spots, and cash delivery schedules. What type of robbers are best described in the scenario?",
+    choices: [
+      "Addict",
+      "Alcoholic",
+      "Professional",
+      "Opportunistic"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A Criminology student who actively participates in sports, school clubs, and community service has little time to engage in delinquent acts. What bond explains this behavior?",
+    choices: [
+      "Attachment",
+      "Involvement",
+      "Commitment",
+      "Belief"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "An abandoned building with poor lighting and no security becomes a hotspot for illegal activities. What is lacking in this scenario?",
+    choices: [
+      "Strong attachment",
+      "Effective CPTED",
+      "Rational decision-making",
+      "Legal enforcement"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Gina repeatedly engages in theft because of the excitement and pleasure experienced after successfully committing the act. Which neurotransmitter is MOST associated with this behavior?",
+    choices: [
+      "Serotonin",
+      "Dopamine",
+      "Melatonin",
+      "Endorphins"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "An abandoned building in Baguio City with broken windows, trash, and graffiti becomes a hangout for offenders engaging in illegal activities. According to the theory, what is the main issue?",
+    choices: [
+      "Lack of punishment",
+      "Visible disorder",
+      "Biological factors",
+      "Economic inequality"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "A thief steals a laptop left unattended in a public cafe while the owner steps away. Which element is missing in this scenario?",
+    choices: [
+      "Motivated offender",
+      "Suitable target",
+      "Capable guardian",
+      "Social control"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A large concert event draws thousands of people, leading to an increase in pickpocketing incidents. What type of location is described?",
+    choices: [
+      "Crime attractor",
+      "Crime generator",
+      "Controlled zone",
+      "Low-risk area"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "A child witnesses an older sibling engaging in shoplifting and later imitates the same behavior in a store. What type of observational learning is illustrated?",
+    choices: [
+      "Symbolic model",
+      "Verbal instructional model",
+      "Live model",
+      "Cognitive model"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Children growing up in a high-crime neighborhood adopt delinquent behaviors as normal. What process is illustrated?",
+    choices: [
+      "Rational deterrence",
+      "Cultural transmission",
+      "Biological inheritance",
+      "Moral development"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Jordan, an ex-convict struggles to find employment because society continues to view him as untrustworthy. What concept is illustrated?",
+    choices: [
+      "Rehabilitation",
+      "Stigma",
+      "Deterrence",
+      "Neutralization"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "A criminologist studies how inherited tendencies such as impulsivity may influence criminal behavior. What concept is being applied?",
+    choices: [
+      "Social learning",
+      "Determinism",
+      "Heredity",
+      "Labeling"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Panchito refuses to cheat even when no one is watching because he believes it is morally wrong. Which component is dominant?",
+    choices: [
+      "Id",
+      "Ego",
+      "Superego",
+      "Impulse"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Adrian repeatedly rubs his phallus against others in a crowded train to obtain gratification. This is best classified as:",
+    choices: [
+      "Voyeurism",
+      "Sadism",
+      "Frotteurism",
+      "Exhibitionism"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Allyssa repeatedly fails in school and receives negative feedback, leading to feelings of inadequacy. What outcome is MOST likely?",
+    choices: [
+      "Industry",
+      "Identity",
+      "Inferiority",
+      "Generativity"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "An adult contributes to society by mentoring others and being productive at work. What is developed?",
+    choices: [
+      "Stagnation",
+      "Isolation",
+      "Generativity",
+      "Integrity"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Henry, a toddler, explores objects by touching, shaking, and putting them in their mouth to understand them. What stage is illustrated based on cognitive development theory by Jean Piaget?",
+    choices: [
+      "Preoperational",
+      "Concrete operational",
+      "Sensorimotor",
+      "Formal operational"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A child sees a security guard and calls him a \"police officer\" because both wear uniforms. What process is occurring?",
+    choices: [
+      "Accommodation",
+      "Assimilation",
+      "Equilibration",
+      "Abstract thinking"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Alvin steals items and gains approval from peers, increasing the likelihood of repeating the act. What principle is illustrated?",
+    choices: [
+      "Positive reinforcement",
+      "Negative reinforcement",
+      "Positive punishment",
+      "Negative punishment"
+    ],
+    correctIndex: 0
+  },
+  {
+    q: "Hendrix imitates a well-known gang leader's behavior because the leader is respected and feared in the community. Which process is MOST evident?",
+    choices: [
+      "Retention",
+      "Attention",
+      "Motivation",
+      "Reproduction"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Alaiza and Albert experience the same situation, but one perceives it as threatening while the other does not. What explains this difference?",
+    choices: [
+      "Biological traits",
+      "Phenomenal field",
+      "Social bonding",
+      "Legal awareness"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Angelica believes she is morally upright (ideal self) but frequently engages in illegal activities (real self). What concept is demonstrated?",
+    choices: [
+      "Congruence",
+      "Reinforcement",
+      "Incongruence",
+      "Self-actualization"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Carl Adriane undergoes rehabilitation and chooses to change behavior through personal decision and self-awareness. What perspective explains this change?",
+    choices: [
+      "Biological theory",
+      "Humanistic theory",
+      "Social disorganization",
+      "Rational choice"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Cedia engages in illegal activity to secure financial stability and personal safety. What need is being pursued?",
+    choices: [
+      "Esteem",
+      "Safety",
+      "Self-actualization",
+      "Belongingness"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Dodong experiences sadness, loss of interest in hobbies, and low energy for several months, affecting his daily functioning. What condition is MOST likely?",
+    choices: [
+      "Anxiety disorder",
+      "Depressive disorder",
+      "Personality disorder",
+      "Bipolar disorder"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Erica, a robbery victim repeatedly has vivid nightmares and flashbacks of the incident, as if it is happening again. What symptom of PTSD is illustrated?",
+    choices: [
+      "Avoidance",
+      "Re-experiencing",
+      "Emotional detachment",
+      "Rational thinking"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Zaldy Co firmly believes that he is being followed by government agents despite clear evidence that no one is monitoring him. What symptom is illustrated?",
+    choices: [
+      "Hallucination",
+      "Delusion",
+      "Depression",
+      "Anxiety"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Gerald feels a strong urge to use a substance even after deciding to stop. What is this symptom called?",
+    choices: [
+      "Withdrawal",
+      "Craving",
+      "Hallucination",
+      "Deterrence"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Aeron constantly believes his coworkers are plotting against him despite no evidence and refuses to trust anyone. What disorder is MOST consistent?",
+    choices: [
+      "Schizoid",
+      "Paranoid",
+      "Narcissistic",
+      "Avoidant"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Arben believes he is superior to others, seeks admiration, and lacks empathy. What disorder is illustrated?",
+    choices: [
+      "Schizoid",
+      "Histrionic",
+      "Paranoid",
+      "Narcissistic"
+    ],
+    correctIndex: 3
+  },
+  {
+    q: "Elie constantly seeks attention and displays exaggerated emotional expression. What disorder is MOST consistent?",
+    choices: [
+      "Borderline",
+      "Histrionic",
+      "Dependent",
+      "Avoidant"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Jamina relies heavily on her mother for decision-making and fears being alone. What disorder is illustrated?",
+    choices: [
+      "Borderline",
+      "Avoidant",
+      "Dependent",
+      "Narcissistic"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Andrew feels unsuccessful spends most of his time imagining himself as powerful and successful instead of addressing real-life problems. What defense mechanism is illustrated?",
+    choices: [
+      "Projection",
+      "Denial",
+      "Fantasy",
+      "Rationalization"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "After being reprimanded by a superior, an officer vents anger by shouting at subordinates. What defense mechanism is illustrated?",
+    choices: [
+      "Projection",
+      "Displacement",
+      "Regression",
+      "Fantasy"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Jerome with aggressive tendencies channels his energy into sports and competitive activities. What defense mechanism is illustrated?",
+    choices: [
+      "Displacement",
+      "Sublimation",
+      "Projection",
+      "Regression"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Jenny cannot concentrate, process information, or maintain awareness of surroundings due to acute brain dysfunction. What disorder is illustrated?",
+    choices: [
+      "Dementia",
+      "Delirium",
+      "Hallucinosis",
+      "Depression"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "During an argument, the victim insults and physically provokes the offender, leading to a fatal altercation. What concept is illustrated?",
+    choices: [
+      "Rational choice",
+      "Victim precipitation",
+      "Social disorganization",
+      "Deterrence"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "A series of robberies occur in areas where victims and offenders regularly cross paths due to similar routines. What factor is MOST evident?",
+    choices: [
+      "Availability",
+      "Location",
+      "Vulnerability",
+      "Fantasy"
+    ],
+    correctIndex: 0
+  },
+  {
+    q: "Investigators analyze a victim's lifestyle, relationships, and daily routine to understand why they were targeted. What process is being applied?",
+    choices: [
+      "Offender profiling",
+      "Victim profiling",
+      "Crime mapping",
+      "Social disorganization"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "A witness refuses to testify in a murder case due to fear of retaliation from the suspect's group. What is the primary purpose of WPP in this situation?",
+    choices: [
+      "Punish the offender",
+      "Encourage testimony",
+      "Detain the witness",
+      "Delay court proceedings"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "A discharged witness still faces threats from associates of the accused. What may the government provide?",
+    choices: [
+      "No assistance",
+      "Continued safety",
+      "Arrest of the witness",
+      "Court dismissal"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Several police officers in Davao City were seen acting rudely toward civilians and ignoring proper protocol. The incident was recorded and spread on social media platforms. What principle is MOST directly affected?",
+    choices: [
+      "Career Management",
+      "Police Operations",
+      "PNP Image",
+      "Logistics Management"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Patrolman Bryan was offered an expensive gift by a businessman in exchange for \"favorable consideration\" in a pending case. The officer accepted the gift and continued handling the case. Which principle is MOST violated?",
+    choices: [
+      "PNP Image",
+      "Political Patronage",
+      "Delicadeza",
+      "Esprit de Corps"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Police officer Richie seeks the help of a local politician to secure a promotion, even though other officers are more qualified. Which principle is violated?",
+    choices: [
+      "Human Rights",
+      "Setting Example",
+      "Political Patronage",
+      "Delicadeza"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Patrolman Henry uses an official patrol vehicle and government fuel for personal errands during duty hours. Which principle is MOST violated?",
+    choices: [
+      "Non-Partisanship",
+      "Commitment to Public Interest",
+      "Police Lifestyle",
+      "Setting Example"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Corporal Leon was assigned to night patrol consistently neglects his rounds, spends time sleeping during duty hours, and fails to respond promptly to emergency calls in his area. Which principle is primarily violated?",
+    choices: [
+      "Proper Care and Use of Public Property",
+      "Commitment to Public Interest",
+      "Devotion to Duty",
+      "Equality in the Service"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Patrolwoman Cherry police alters details in an official report to protect a colleague involved in a minor misconduct case in Mandaua. Which principle is MOST violated?",
+    choices: [
+      "Morality",
+      "Integrity",
+      "Devotion to Duty",
+      "Delicadeza"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Sargeant Miller refuses to accept a bribe despite financial difficulties, choosing instead to follow what is morally right and legally acceptable. Which principle is being demonstrated?",
+    choices: [
+      "Esprit de Corps",
+      "Ethical Standards",
+      "Delicadeza",
+      "Devotion to Duty"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Master Sargeant Jimuel regularly accepts free meals from local restaurants and small tokens from motorists during routine traffic stops, even without issuing citations. What term BEST describes this behavior?",
+    choices: [
+      "Ethical Standards",
+      "Grass Eaters",
+      "Meat Eaters",
+      "Police Lifestyle"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Police officer Myra is widely respected in her unit because of her integrity, discipline, and consistent ethical behavior. What concept does this describe?",
+    choices: [
+      "Moral Character",
+      "Ethical Standards",
+      "Moral Ascendancy",
+      "Esprit de Corps"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "COP Paches ensures that his subordinates are properly trained, supported in their welfare needs, and guided in both personal and professional concerns. Which leadership quality is BEST demonstrated?",
+    choices: [
+      "Patience",
+      "Moral Ascendancy",
+      "Paternalism",
+      "Devotion to Duty"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Police station 1 launches a community program where residents are encouraged to report suspicious activities, while officers regularly conduct dialogues and coordinate with barangay officials to maintain peace and order. Which principle is BEST illustrated?",
+    choices: [
+      "Public Relations Program",
+      "Public Information Program",
+      "Reciprocal Responsibility",
+      "Non-Partisanship"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "It is designed to influence the opinions, attitudes, behavior, and emotions of the public so that they will act in accordance with the law.",
+    choices: [
+      "Civic Action",
+      "Mass Communication",
+      "Domestic Relations",
+      "Neighborhood Relations"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Anabelle has parents who are alive but incapable of supporting her financially. She relies entirely on public assistance programs.",
+    choices: [
+      "Abused child",
+      "Neglected child",
+      "Abandoned child",
+      "Dependent child"
+    ],
+    correctIndex: 3
+  },
+  {
+    q: "16-year-old Lyka committed a crime but was found to have no discernment due to intellectual limitations. What is the correct disposition?",
+    choices: [
+      "Criminal liability",
+      "Detention",
+      "Intervention",
+      "Probation"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A child offender is enrolled in counseling, life skills training, and community-based activities to improve behavior. What is the primary goal of these measures?",
+    choices: [
+      "Punishment",
+      "Deterrence",
+      "Rehabilitation",
+      "Legal compliance"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A minor undergoes court trial and is found guilty. However, the judge withheld the execution of penalty and instead ordered counseling and rehabilitation. Which applies?",
+    choices: [
+      "Diversion",
+      "Intervention",
+      "Suspended sentence",
+      "Acquittal"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A 16-year-old vandalized a store wall. Instead of filing a case, the authorities facilitated a meeting between the child and the store owner, where the child apologized and agreed to repair the damage. What principle is applied?",
+    choices: [
+      "Retributive justice",
+      "Restorative justice",
+      "Deterrence",
+      "Punitive justice"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "A minor offender was detained in the same cell with adult criminals due to lack of space in the station. What principle was violated?",
+    choices: [
+      "Restorative justice",
+      "Confidentiality",
+      "Separation",
+      "Diversion"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A local government unit established a community-based rehabilitation program for children in conflict with the law. This reflects whose responsibility?",
+    choices: [
+      "Courts",
+      "Police",
+      "LGUs",
+      "NGOs"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Which situation BEST reflects the philosophy of RA 9344?",
+    choices: [
+      "Immediate imprisonment of minors",
+      "Public exposure of offenders",
+      "Rehabilitation and reintegration",
+      "Strict punishment without intervention"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "During a disagreement, Police officer John insists on his decision, disregards others' opinions, and aims to prove he is right at all costs.",
+    choices: [
+      "Avoiding",
+      "Collaborating",
+      "Competing",
+      "Accommodating"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Meralco and Meralca agreed to resolve their dispute outside the court by appointing a neutral third party who will issue a binding decision. What process is described?",
+    choices: [
+      "Mediation",
+      "Litigation",
+      "Arbitration",
+      "Conciliation"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "In a domestic arbitration case, the parties failed to agree on the language. What language will be used?",
+    choices: [
+      "English only",
+      "Filipino only",
+      "English or Filipino",
+      "Local dialect"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "In a dispute, a neutral third party helps both sides understand each other's concerns and guides them toward a mutually acceptable agreement. Who is this person?",
+    choices: [
+      "Arbitrator",
+      "Judge",
+      "Mediator",
+      "Conciliator"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Two disputing parties agreed to settle their issue outside the court with the help of a neutral third party who assists them in reaching an amicable agreement. What process is described?",
+    choices: [
+      "Arbitration",
+      "Litigation",
+      "Conciliation",
+      "Adjudication"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "In barangay Igat, a body was organized to amicably settle disputes among residents, chaired by the Barangay Captain and composed of selected community members. What is this body called?",
+    choices: [
+      "Pangkat Tagapagkasundo",
+      "Lupong Tagapamayapa",
+      "Barangay Council",
+      "Arbitration Panel"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Janjan filed a complaint against a government agency for damages. The barangay captain insisted that the case must first undergo barangay conciliation. Is this correct?",
+    choices: [
+      "Yes",
+      "No",
+      "Partly No",
+      "Partly Yes"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "A dispute involves three respondents living in different barangays within the same city. Where can the complainant file the case?",
+    choices: [
+      "Complainant's barangay",
+      "In any barangay",
+      "Only in city hall",
+      "In all barangays"
+    ],
+    correctIndex: 0
+  },
+  {
+    q: "Yanyan was arrested and is currently detained. His family wants to immediately file a case without undergoing barangay conciliation. Is this allowed?",
+    choices: [
+      "No",
+      "Yes",
+      "Yes, if barangay captain approves",
+      "No, unless both parties agree"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Barangay captain Panchito appoints a person who lives in another municipality but is well-known for his integrity. Is this valid?",
+    choices: [
+      "Yes",
+      "Yes, if approved",
+      "No",
+      "No, unless elected"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Jessica, a 17-year-old resident, known for fairness and integrity was nominated to become a member of the Lupong Tagapamayapa. Is this allowed?",
+    choices: [
+      "Yes",
+      "No",
+      "Partly No",
+      "Partly Yes"
+    ],
+    correctIndex: 0
+  },
+  {
+    q: "After the Lupon failed to settle a dispute, a conciliation panel was formed specifically for that case, composed of selected members. What is this body called?",
+    choices: [
+      "Arbitration Panel",
+      "Lupong Tagapamayapa",
+      "Pangkat ng Tagapagkasundo",
+      "Barangay Council"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Barangay Sais with sufficient funds grants a small allowance to its Lupon members. Is this allowed?",
+    choices: [
+      "No, strictly prohibited",
+      "Yes, as honoraria",
+      "Yes, as salary",
+      "No, unless approved by court"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "In barangay walang halaga, most residents belong to an indigenous cultural community, a dispute was brought before a council of elders instead of the Lupong Tagapamayapa. Is this allowed?",
+    choices: [
+      "No, all disputes must go to the Lupon",
+      "Yes, recognized indigenous systems",
+      "No, unless approved by the court",
+      "Yes, but only for criminal cases"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "An assault team was deployed wearing plain clothes and face coverings to conceal identity. Is this a proper procedure?",
+    choices: [
+      "Yes",
+      "Partly Yes",
+      "No",
+      "Partly No"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A negotiator rushed to contact the hostage-taker immediately upon arrival without assessing the situation. What principle was violated?",
+    choices: [
+      "Allow hostage-taker to speak",
+      "Select the right time to contact",
+      "Avoid attention to the victim",
+      "Take time when negotiating"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Andrea, a police researcher, collected crime rates from different cities and presented them in tables and charts. In this context, what does \"statistics\" refer to?",
+    choices: [
+      "Numerical formulas",
+      "Numerical data",
+      "Research method",
+      "Numerical figures"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "Angelo, a Criminology researcher, summarizes crime data by computing averages, percentages, and presenting them in charts without making any generalizations. What type of statistics is used?",
+    choices: [
+      "Inferential statistics",
+      "Descriptive statistics",
+      "Predictive statistics",
+      "Analytical statistics"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "A Criminologist joins a group to secretly observe their behavior from within. What type of observation is this?",
+    choices: [
+      "Non-participant observation",
+      "Survey observation",
+      "Participant observation",
+      "Experimental observation"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A Criminology researcher analyzes crime statistics from police reports and historical records without collecting new data. What method is used?",
+    choices: [
+      "Survey method",
+      "Observation method",
+      "Existing records",
+      "Experimental method"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A researcher adds all crime incidents recorded in a dataset and divides the total by the number of observations. What measure is being computed?",
+    choices: [
+      "Median",
+      "Mode",
+      "Mean",
+      "Range"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A Criminology researcher observes crime patterns in different barangays and documents them without changing any conditions. What type of study is this?",
+    choices: [
+      "Correlational study",
+      "Experimental study",
+      "Descriptive study",
+      "Quasi-experiment"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A criminologist examines whether there is a relationship between unemployment rates and crime rates in Barangay mahalpa. What type of study is this?",
+    choices: [
+      "Descriptive",
+      "Correlational",
+      "Experimental",
+      "Quasi-experimental"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "A study examines the effect of a new policing strategy on crime rates in Butuan City, but there is no random assignment of subjects. What design is this?",
+    choices: [
+      "Experimental",
+      "Correlational",
+      "Descriptive",
+      "Quasi-experiment"
+    ],
+    correctIndex: 3
+  },
+  {
+    q: "A criminologist conducts in-depth interviews with former inmates to understand the common experiences of imprisonment in Manila City Jail. What type of research is applied?",
+    choices: [
+      "Case study",
+      "Phenomenological",
+      "Descriptive",
+      "Experimental"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "A researcher investigates one specific criminal case in detail, analyzing all aspects including background, evidence, and outcome. What type of study is this?",
+    choices: [
+      "Phenomenological",
+      "Case study",
+      "Correlational",
+      "Survey"
+    ],
+    correctIndex: 1
+  },
+  {
+    q: "A Criminology student not only compares different studies but also evaluates their strengths, weaknesses, and reliability. What approach is this?",
+    choices: [
+      "Comparison",
+      "Contrast",
+      "Critical analysis",
+      "Descriptive"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Which of the following BEST describes a thesis?",
+    choices: [
+      "A short essay",
+      "A general report",
+      "Premise to prove",
+      "A summary of literature"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "Randolph, a researcher gathers data through observation and actual evidence rather than opinions. What characteristic is demonstrated?",
+    choices: [
+      "Control",
+      "Generalization",
+      "Empiricism",
+      "Order"
+    ],
+    correctIndex: 2
+  },
+  {
+    q: "A survey reports that 75% of respondents feel safer in their community during post-pandemic. What type of research is used?",
+    choices: [
+      "Qualitative",
+      "Quantitative",
+      "Descriptive",
+      "Case study"
+    ],
+    correctIndex: 1
+  }
+
+// ======== END OF QUIZ ===========
+
+
+    ];
+
+    // ===== QUIZ LOGIC =====
+    let quizItems = [];
+
+    window.showQuiz = function () {
+      const total = pool.length;
+      document.getElementById("quizCountHint").textContent = `Available: ${total} questions in the pool`;
+      const input = document.getElementById("quizCountInput");
+      input.max = total;
+      input.value = Math.min(10, total);
+      openModal("quizCountModalBG");
+    };
+
+    window.adjustQuizCount = function (delta) {
+      const input = document.getElementById("quizCountInput");
+      let val = parseInt(input.value) + delta;
+      val = Math.max(1, Math.min(pool.length, val));
+      input.value = val;
+    };
+
+    window.closeQuizCountModal = function () { closeModal("quizCountModalBG"); };
+
+    window.startQuizWithCount = function () {
+      const input = document.getElementById("quizCountInput");
+      let count = parseInt(input.value);
+      if (isNaN(count) || count < 1) count = 10;
+      if (count > pool.length) count = pool.length;
+      closeModal("quizCountModalBG");
+      document.getElementById("reviewerSection").style.display = "none";
+      document.getElementById("quizSection").style.display = "block";
+      buildQuiz(count);
+      window.scrollTo(0, 0);
+    };
+
+    window.backToReviewer = function () {
+      document.getElementById("quizSection").style.display = "none";
+      document.getElementById("reviewerSection").style.display = "block";
+      document.getElementById("quizForm").innerHTML = "";
+      document.getElementById("result").innerHTML = "";
+      document.getElementById("finishBtn").disabled = false;
+      window.scrollTo(0, 0);
+    };
+
+    window.refreshQuiz = function () {
+      document.getElementById("quizForm").innerHTML = "";
+      document.getElementById("result").innerHTML = "";
+      document.getElementById("finishBtn").disabled = false;
+      buildQuiz(quizItems.length || 10);
+      window.scrollTo(0, 0);
+    };
+
+    function pickRandom(arr, n) {
+      const copy = [...arr];
+      const result = [];
+      while (result.length < n && copy.length > 0) {
+        const idx = Math.floor(Math.random() * copy.length);
+        result.push(copy.splice(idx, 1)[0]);
+      }
+      return result;
+    }
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function selectRandomChoices(item) {
+      const correctChoice = item.choices[item.correctIndex];
+      let others = item.choices.filter((_, idx) => idx !== item.correctIndex);
+      shuffleArray(others);
+      let selected = [correctChoice, ...others.slice(0, 3)];
+      shuffleArray(selected);
+      item.correctIndex = selected.indexOf(correctChoice);
+      item.choices = selected;
+    }
+
+    function buildQuiz(count) {
+      quizItems = pickRandom(pool, Math.min(count, pool.length));
+      const form = document.getElementById("quizForm");
+      form.innerHTML = "";
+
+      quizItems.forEach((item, i) => {
+        const copy = { q: item.q, choices: [...item.choices], correctIndex: item.correctIndex };
+        selectRandomChoices(copy);
+        quizItems[i] = copy;
+
+        const div = document.createElement("div");
+        div.className = "question";
+
+        const q = document.createElement("p");
+        q.textContent = `${i + 1}. ${copy.q}`;
+        div.appendChild(q);
+
+        copy.choices.forEach((choice, idx) => {
+          const label = document.createElement("label");
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.name = `q${i}`;
+          radio.value = idx;
+          label.appendChild(radio);
+          label.appendChild(document.createTextNode(" " + choice));
+          div.appendChild(label);
+        });
+
+        form.appendChild(div);
+      });
+
+      document.getElementById("quizTitle").textContent =
+        `Criminology Quiz — ${quizItems.length} ${quizItems.length === 1 ? "Item" : "Items"}`;
+    }
+
+    document.getElementById("finishBtn").addEventListener("click", async function () {
+      let score = 0;
+      const total = quizItems.length;
+
+      for (let i = 0; i < total; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        let selected = -1;
+        radios.forEach(r => { if (r.checked) selected = parseInt(r.value); });
+        const div = document.getElementById("quizForm").children[i];
+
+        if (selected === quizItems[i].correctIndex) {
+          score++;
+          div.insertAdjacentHTML("beforeend", "<div class='correct'>✔ Correct!</div>");
+        } else {
+          const correctAnswer = quizItems[i].choices[quizItems[i].correctIndex];
+          div.insertAdjacentHTML("beforeend",
+            `<div class='wrong'>✘ Incorrect — The correct answer is: <strong>${correctAnswer}</strong></div>`);
+        }
+        radios.forEach(r => r.disabled = true);
+      }
+
+      const pct = Math.round((score / total) * 100);
+      let remark = pct === 100 ? "Perfect Score — Outstanding!" :
+                   pct >= 80  ? "Excellent Work!" :
+                   pct >= 60  ? "Good Job — Review weak areas." :
+                                "Keep Studying — You'll get there!";
+
+      const userName = currentUser ? currentUser.name : "Student";
+      document.getElementById("result").innerHTML =
+        `<h2>Score: ${score} / ${total}</h2>
+         <p>${pct}% correct &nbsp;·&nbsp; ${remark}</p>
+         <p style="margin-top:8px;font-size:0.88rem;opacity:0.7;">Recorded for: ${userName}</p>`;
+
+      this.disabled = true;
+      await saveScoreToGoogleSheets(score, total);
+    });
+
+  </script>
+
+</body>
+</html>
